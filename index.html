@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dokumentasi Proyek Laravel | Briyan</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Dokumentasi Proyek Laravel - Briyan Dwi Septian</h1>
+    <nav>
+      <a href="#intro">Beranda</a>
+      <a href="#install">Instalasi</a>
+      <a href="#migrations">Migrasi</a>
+      <a href="#crud">CRUD Produk</a>
+      <a href="#screenshot">Screenshot</a>
+      <a href="#about">Tentang Saya</a>
+    </nav>
+  </header>
+
+  <section id="intro" class="section">
+    <h2>Selamat datang 👋</h2>
+    <p>Ini adalah dokumentasi proyek Laravel saya menggunakan FluxUI.</p>
+  </section>
+
+  <section id="install" class="section">
+    <h2>Langkah Instalasi</h2>
+    <ol>
+      <li>Install dependency: <code>composer install && npm install</code></li>
+      <li>Copy file .env dan konfigurasi database</li>
+      <li>Generate key: <code>php artisan key:generate</code></li>
+      <li>Jalankan migrasi: <code>php artisan migrate</code></li>
+      <li>Jalankan server: <code>php artisan serve</code></li>
+    </ol>
+  </section>
+
+  <section id="migrations" class="section">
+    <h2>Database Migrations</h2>
+    <pre><code>
+// 1. Customers
+Schema::create('customers', function (Blueprint $table) {
+  $table->id();
+  $table->string('name');
+  $table->string('email')->unique();
+  $table->text('address')->nullable();
+  $table->timestamps();
+});
+
+// 2. Orders
+Schema::create('orders', function (Blueprint $table) {
+  $table->id();
+  $table->foreignId('customer_id')->constrained('customers');
+  $table->date('order_date');
+  $table->decimal('total_amount', 10, 2)->default(0.00);
+  $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
+  $table->timestamps();
+});
+
+// 3. Order Details
+Schema::create('order_details', function (Blueprint $table) {
+  $table->id();
+  $table->foreignId('order_id')->constrained('orders');
+  $table->foreignId('product_id')->constrained('products');
+  $table->unsignedInteger('quantity')->default(1);
+  $table->decimal('unit_price', 10, 2);
+  $table->decimal('subtotal', 10, 2);
+  $table->timestamps();
+});
+    </code></pre>
+  </section>
+
+  <section id="crud" class="section">
+    <h2>CRUD Produk dengan FluxUI</h2>
+    <ul>
+      <li><strong>Route:</strong> <code>/dashboard/products</code></li>
+      <li><strong>Controller:</strong> ProductController.php</li>
+      <li><strong>Fitur:</strong> Tambah, Lihat, Edit, Hapus Produk</li>
+      <li><strong>Komponen FluxUI:</strong> Form, Table, Button, Notification</li>
+    </ul>
+    <p>Validasi menggunakan Laravel Request dengan aturan seperti nama produk wajib diisi dan harga tidak boleh negatif.</p>
+  </section>
+
+  <section id="screenshot" class="section">
+    <h2>Screenshot Aplikasi</h2>
+    <img src="assets/img/screenshot1.png" alt="Screenshot CRUD Produk" style="max-width: 100%; border: 1px solid #ccc;" />
+  </section>
+
+  <section id="about" class="section">
+    <h2>Tentang Saya</h2>
+    <p><strong>Nama:</strong> Briyan Dwi Septian</p>
+    <p><strong>TTL:</strong> Tegal, 10 September 2003</p>
+    <p><strong>Alamat:</strong> Tegal</p>
+    <p><strong>Hobi:</strong> Ngoding</p>
+    <p><strong>Riwayat Pendidikan:</strong></p>
+    <ul>
+      <li>TK Masyitoh</li>
+      <li>MI Assalafiyah</li>
+      <li>SMP N 10 Tegal</li>
+      <li>SMK N 2 Tegal</li>
+      <li>D4 Sarjana Terapan Teknik Informatika</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>© 2025 Briyan Dwi Septian. All rights reserved.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
